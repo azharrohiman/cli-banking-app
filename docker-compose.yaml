@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: banking_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - banking_cli_app
+
+  liquibase:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    container_name: banking-cli-liquibase
+    image: liquibase/liquibase
+    command: --url=jdbc:postgresql://postgres:5432/banking_db --search-path=/liquibase/changelog --changelog-file=changelog.sql --username=admin --password=admin123 update
+    depends_on:
+      - postgres
+    volumes:
+      - ./db/changelog/:/liquibase/changelog/
+    networks:
+      - banking_cli_app
+
+volumes:
+  postgres_data:
+
+networks:
+  banking_cli_app:
+    driver: bridge
