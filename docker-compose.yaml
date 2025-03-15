@@ -16,9 +16,6 @@ services:
       - banking_cli_app
 
   liquibase:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
     container_name: banking-cli-liquibase
     image: liquibase/liquibase
     command: --url=jdbc:postgresql://postgres:5432/banking_db --search-path=/liquibase/changelog --changelog-file=changelog.sql --username=admin --password=admin123 update
