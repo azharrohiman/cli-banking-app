@@ -1,6 +1,7 @@
 package cli
 
 import (
+	customer_handler "cli-banking-app/pkg/handler/customer"
 	accountMenu "cli-banking-app/pkg/menus/account"
 	mainMenu "cli-banking-app/pkg/menus/main"
 	userMenu "cli-banking-app/pkg/menus/user"
@@ -40,10 +41,11 @@ func MainScreen() {
 		}
 
 		if mm.Register() {
-			// call customerRegisterHandler to allow user
+			// call customerRegisterHandler to allow customer
 			// to register into the bank
-			// create an "input" package for user input
-			fmt.Println("Create Account")
+			// create an "input" package for customer input
+			customer_handler.Register()
+			fmt.Println("Create Customer Account")
 		}
 
 		if mm.Exit() {
